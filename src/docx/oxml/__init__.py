@@ -24,6 +24,7 @@ from docx.oxml.shape import (
 )
 from docx.oxml.shared import CT_DecimalNumber, CT_OnOff, CT_String
 from docx.oxml.text.hyperlink import CT_Hyperlink
+from docx.oxml.text.xiuding import CT_Ins       # 《修改》添加ins类
 from docx.oxml.text.pagebreak import CT_LastRenderedPageBreak
 from docx.oxml.text.run import (
     CT_R,
@@ -63,6 +64,10 @@ register_element_cls("wp:inline", CT_Inline)
 # hyperlink-related elements
 
 register_element_cls("w:hyperlink", CT_Hyperlink)
+
+# xiuding-related elements
+
+register_element_cls("w:ins", CT_Ins)
 
 # ---------------------------------------------------------------------------
 # text-related elements

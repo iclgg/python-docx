@@ -13,6 +13,7 @@ if TYPE_CHECKING:
     from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
     from docx.oxml.section import CT_SectPr
     from docx.oxml.text.hyperlink import CT_Hyperlink
+    from docx.oxml.text.xiuding import CT_Ins   # 《修改》导入ins类
     from docx.oxml.text.pagebreak import CT_LastRenderedPageBreak
     from docx.oxml.text.parfmt import CT_PPr
     from docx.oxml.text.run import CT_R
@@ -25,10 +26,12 @@ class CT_P(BaseOxmlElement):
     get_or_add_pPr: Callable[[], CT_PPr]
     hyperlink_lst: List[CT_Hyperlink]
     r_lst: List[CT_R]
+    ins_lst: List[CT_Ins]  # 《修改》添加修订插入
 
     pPr: CT_PPr | None = ZeroOrOne("w:pPr")  # pyright: ignore[reportGeneralTypeIssues]
     hyperlink = ZeroOrMore("w:hyperlink")
     r = ZeroOrMore("w:r")
+    ins = ZeroOrMore("w:ins")  # 《修改》添加修订插入
 
     def add_p_before(self) -> CT_P:
         """Return a new `<w:p>` element inserted directly prior to this one."""
@@ -99,7 +102,7 @@ class CT_P(BaseOxmlElement):
         Inner-content child elements like `w:r` and `w:hyperlink` are translated to
         their text equivalent.
         """
-        return "".join(e.text for e in self.xpath("w:r | w:hyperlink"))
+        return "".join(e.text for e in self.xpath("w:r | w:hyperlink | w:ins"))     #《修改》添加ins标签
 
     def _insert_pPr(self, pPr: CT_PPr) -> CT_PPr:
         self.insert(0, pPr)

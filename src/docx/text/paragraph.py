@@ -12,6 +12,7 @@ from docx.oxml.text.run import CT_R
 from docx.shared import StoryChild
 from docx.styles.style import ParagraphStyle
 from docx.text.hyperlink import Hyperlink
+from docx.text.xiuding import Ins   # 《修改》
 from docx.text.pagebreak import RenderedPageBreak
 from docx.text.parfmt import ParagraphFormat
 from docx.text.run import Run
@@ -79,6 +80,11 @@ class Paragraph(StoryChild):
     def hyperlinks(self) -> List[Hyperlink]:
         """A |Hyperlink| instance for each hyperlink in this paragraph."""
         return [Hyperlink(hyperlink, self) for hyperlink in self._p.hyperlink_lst]
+
+    @property
+    def inss(self) -> List[Ins]:
+        """A |Hyperlink| instance for each hyperlink in this paragraph."""
+        return [Ins(ins, self) for ins in self._p.ins_lst]
 
     def insert_paragraph_before(
         self, text: str | None = None, style: str | ParagraphStyle | None = None
